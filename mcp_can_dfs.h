@@ -1,11 +1,12 @@
 /*
   mcp_can_dfs.h
   2012 Copyright (c) Seeed Technology Inc.  All right reserved.
+  2014 Copyright (c) Cory J. Fowler  All Rights Reserved.
 
   Author:Loovee
   Contributor: Cory J. Fowler
   2014-1-16
-  
+
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -75,24 +76,23 @@
 #define MCP_RXB_RTR_M       0x40                                        /* In RXBnDLC                   */
 
 #define MCP_STAT_RXIF_MASK   (0x03)
-#define MCP_STAT_RX0IF (1<<0)
-#define MCP_STAT_RX1IF (1<<1)
+#define MCP_STAT_RX0IF       (1<<0)
+#define MCP_STAT_RX1IF       (1<<1)
 
-#define MCP_EFLG_RX1OVR (1<<7)
-#define MCP_EFLG_RX0OVR (1<<6)
-#define MCP_EFLG_TXBO   (1<<5)
-#define MCP_EFLG_TXEP   (1<<4)
-#define MCP_EFLG_RXEP   (1<<3)
-#define MCP_EFLG_TXWAR  (1<<2)
-#define MCP_EFLG_RXWAR  (1<<1)
-#define MCP_EFLG_EWARN  (1<<0)
+#define MCP_EFLG_RX1OVR     (1<<7)
+#define MCP_EFLG_RX0OVR     (1<<6)
+#define MCP_EFLG_TXBO       (1<<5)
+#define MCP_EFLG_TXEP       (1<<4)
+#define MCP_EFLG_RXEP       (1<<3)
+#define MCP_EFLG_TXWAR      (1<<2)
+#define MCP_EFLG_RXWAR      (1<<1)
+#define MCP_EFLG_EWARN      (1<<0)
 #define MCP_EFLG_ERRORMASK  (0xF8)                                      /* 5 MS-Bits                    */
 
 
 /*
  *   Define MCP2515 register addresses
  */
-
 #define MCP_RXF0SIDH    0x00
 #define MCP_RXF0SIDL    0x01
 #define MCP_RXF0EID8    0x02
@@ -189,6 +189,10 @@
 #define MODE_SLEEP      0x20
 #define MODE_LOOPBACK   0x40
 #define MODE_LISTENONLY 0x60
+#define MCP_NORMAL     0x00
+#define MCP_SLEEP      0x20
+#define MCP_LOOPBACK   0x40
+#define MCP_LISTENONLY 0x60
 #define MODE_CONFIG     0x80
 #define MODE_POWERUP    0xE0
 #define MODE_MASK       0xE0
@@ -247,8 +251,13 @@
 /*
  * clock
  */
-#define MCP_16MHz 1
-#define MCP_8MHz  2
+#define MCP_20MHz 1
+#define MCP_16MHz 2
+#define MCP_8MHz  3
+
+#define MCP_20MHZ MCP_20MHz
+#define MCP_16MHZ MCP_16MHz
+#define MCP_8MHZ  MCP_8MHz
 
 /*
  *  speed 16M
@@ -302,6 +311,10 @@
 #define MCP_16MHz_40kBPS_CFG1 (0x07)
 #define MCP_16MHz_40kBPS_CFG2 (0xFF)
 #define MCP_16MHz_40kBPS_CFG3 (0x87)
+
+#define MCP_16MHz_33k3BPS_CFG1 (0x4E)
+#define MCP_16MHz_33k3BPS_CFG2 (0xF1)
+#define MCP_16MHz_33k3BPS_CFG3 (0x85)
 
 #define MCP_16MHz_33kBPS_CFG1 (0x09)
 #define MCP_16MHz_33kBPS_CFG2 (0xBE)
@@ -362,6 +375,10 @@
 #define MCP_8MHz_40kBPS_CFG2 (0xbf)
 #define MCP_8MHz_40kBPS_CFG3 (0x07)
 
+#define MCP_8MHz_33k3BPS_CFG1 (0x47)
+#define MCP_8MHz_33k3BPS_CFG2 (0xE2)
+#define MCP_8MHz_33k3BPS_CFG3 (0x85)
+
 #define MCP_8MHz_31k25BPS_CFG1 (0x07)
 #define MCP_8MHz_31k25BPS_CFG2 (0xa4)
 #define MCP_8MHz_31k25BPS_CFG3 (0x04)
@@ -378,7 +395,44 @@
 #define MCP_8MHz_5kBPS_CFG2 (0xbf)
 #define MCP_8MHz_5kBPS_CFG3 (0x07)
 
+/*
+ *  speed 20M
+ */
+#define MCP_20MHz_1000kBPS_CFG1 (0x00)
+#define MCP_20MHz_1000kBPS_CFG2 (0xD9)
+#define MCP_20MHz_1000kBPS_CFG3 (0x82)
 
+#define MCP_20MHz_500kBPS_CFG1 (0x00)
+#define MCP_20MHz_500kBPS_CFG2 (0xFA)
+#define MCP_20MHz_500kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_250kBPS_CFG1 (0x41)
+#define MCP_20MHz_250kBPS_CFG2 (0xFB)
+#define MCP_20MHz_250kBPS_CFG3 (0x86)
+
+#define MCP_20MHz_200kBPS_CFG1 (0x01)
+#define MCP_20MHz_200kBPS_CFG2 (0xFF)
+#define MCP_20MHz_200kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_125kBPS_CFG1 (0x03)
+#define MCP_20MHz_125kBPS_CFG2 (0xFA)
+#define MCP_20MHz_125kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_100kBPS_CFG1 (0x04)
+#define MCP_20MHz_100kBPS_CFG2 (0xFA)
+#define MCP_20MHz_100kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_80kBPS_CFG1 (0x04)
+#define MCP_20MHz_80kBPS_CFG2 (0xFF)
+#define MCP_20MHz_80kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_50kBPS_CFG1 (0x09)
+#define MCP_20MHz_50kBPS_CFG2 (0xFA)
+#define MCP_20MHz_50kBPS_CFG3 (0x87)
+
+#define MCP_20MHz_40kBPS_CFG1 (0x09)
+#define MCP_20MHz_40kBPS_CFG2 (0xFF)
+#define MCP_20MHz_40kBPS_CFG3 (0x87)
 
 #define MCPDEBUG        (0)
 #define MCPDEBUG_TXBUF  (0)
@@ -411,25 +465,32 @@
 #define CAN_STDID (0)
 #define CAN_EXTID (1)
 
+#define MCP_STDEXT   0                                                  /* Standard and Extended        */
+#define MCP_STD      1                                                  /* Standard IDs ONLY            */
+#define MCP_EXT      2                                                  /* Extended IDs ONLY            */
+#define MCP_ANY      3                                                  /* Disables Masks and Filters   */
+
 #define CANDEFAULTIDENT    (0x55CC)
 #define CANDEFAULTIDENTEXT (CAN_EXTID)
 
+#define CAN_4K096BPS 0
 #define CAN_5KBPS    1
 #define CAN_10KBPS   2
 #define CAN_20KBPS   3
 #define CAN_31K25BPS 4
 #define CAN_33KBPS   5
-#define CAN_40KBPS   6
-#define CAN_50KBPS   7
-#define CAN_80KBPS   8
-#define CAN_83K3BPS  9
-#define CAN_95KBPS   10
-#define CAN_100KBPS  11
-#define CAN_125KBPS  12
-#define CAN_200KBPS  13
-#define CAN_250KBPS  14
-#define CAN_500KBPS  15
-#define CAN_1000KBPS 16
+#define CAN_33K3BPS  6
+#define CAN_40KBPS   7
+#define CAN_50KBPS   8
+#define CAN_80KBPS   9
+#define CAN_83K3BPS  10
+#define CAN_95KBPS   11
+#define CAN_100KBPS  12
+#define CAN_125KBPS  13
+#define CAN_200KBPS  14
+#define CAN_250KBPS  15
+#define CAN_500KBPS  16
+#define CAN_1000KBPS 17
 
 #define CAN_OK                  (0)
 #define CAN_FAILINIT            (1)
@@ -440,8 +501,6 @@
 #define CAN_GETTXBFTIMEOUT      (6)
 #define CAN_SENDMSGTIMEOUT      (7)
 #define CAN_FAIL                (0xff)
-
-#define CAN_MAX_CHAR_IN_MESSAGE (8)
 
 #endif
 /*********************************************************************************************************
